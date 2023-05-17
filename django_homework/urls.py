@@ -17,20 +17,27 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework import routers
 
 from ads.views import main, CategoryView, AdView, CategoryDetailView, AdDetailView, CategoryCreateView, \
     CategoryUpdateView, CategoryDeleteView, AdCreateView, AdUpdateView, AdDeleteView, AdImageView
 from django_homework import settings
-from users.views import UserDetailView, UserView
+from users.views import UserDetailView, UserView, LocationViewSet
+
+router = routers.SimpleRouter()
+router.register('location', LocationViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('apt-auth/', include('rest_framework.urls')),
     path('', main),
     path('cat/', include('ads.urls.cat')),
     path('ad/', include('ads.urls.ad')),
     path('user/', include('users.urls')),
 
 
+
 ]
+urlpatterns += router.urls
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
