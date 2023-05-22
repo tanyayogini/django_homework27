@@ -19,10 +19,9 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from ads.views import main, CategoryView, AdView, CategoryDetailView, AdDetailView, CategoryCreateView, \
-    CategoryUpdateView, CategoryDeleteView, AdCreateView, AdUpdateView, AdDeleteView, AdImageView
+from ads.views import main
 from django_homework import settings
-from users.views import UserDetailView, UserView, LocationViewSet
+from users.views import LocationViewSet
 
 router = routers.SimpleRouter()
 router.register('location', LocationViewSet)
@@ -33,6 +32,7 @@ urlpatterns = [
     path('', main),
     path('cat/', include('ads.urls.cat')),
     path('ad/', include('ads.urls.ad')),
+    path('selection/', include('ads.urls.selection')),
     path('user/', include('users.urls')),
 
 
