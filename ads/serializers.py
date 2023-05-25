@@ -1,8 +1,16 @@
+from django.core.exceptions import ValidationError
 from rest_framework import serializers
+from rest_framework.fields import BooleanField
 from rest_framework.relations import SlugRelatedField
 
 from ads.models import Ad, Category, Selection
 from users.models import User
+
+
+class IsNotFalseValidator:
+    def __call__(self, value):
+        if value is True:
+            raise ValidationError("Is_published cannot be True")
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -12,6 +20,14 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class AdSerializer(serializers.ModelSerializer):
+    class Meta:
+        fields = '__all__'
+        model = Ad
+
+
+class AdCreateSerializer(serializers.ModelSerializer):
+    is_published = BooleanField(validators=[IsNotFalseValidator()], required=False)
+
     class Meta:
         fields = '__all__'
         model = Ad

@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from users.validators import check_birth, check_domains
+
 
 class Location(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -25,6 +27,8 @@ class User(AbstractUser):
     role = models.CharField(max_length=9, choices=ROLE, default="member")
     age = models.PositiveIntegerField(null=True)
     locations = models.ManyToManyField(Location)
+    birth_date = models.DateField(null=True, validators=[check_birth])
+    email = models.EmailField(validators=[check_domains])
 
     def __str__(self):
         return self.username
