@@ -28,7 +28,7 @@ class User(AbstractUser):
     age = models.PositiveIntegerField(null=True)
     locations = models.ManyToManyField(Location)
     birth_date = models.DateField(null=True, validators=[check_birth])
-    email = models.EmailField(validators=[check_domains])
+    email = models.EmailField(validators=[check_domains], unique=True)
 
     def __str__(self):
         return self.username
